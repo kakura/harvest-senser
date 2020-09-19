@@ -35,7 +35,6 @@ class HarvestSensor:
 
     def measure(self):
         try:
-            # raise Exception('hogeee')
             self.__setup_sensors()
             sensor_data = self.__measure()
         finally:
