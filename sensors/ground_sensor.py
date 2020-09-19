@@ -11,7 +11,7 @@ PRODUCT_NUMBER   = 2 # 5WT
 SENSOR_COUNT     = 1
 INTERVAL         = 10 # minutes
 
-class GrandSensor:
+class GroundSensor:
     def __init__(self):
         self.address_type_list = []
     
