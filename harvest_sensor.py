@@ -5,12 +5,11 @@ import time
 
 INTERVAL = 0.1 # minutes
 
-
-class harvestsensor:
+class HarvestSensor:
     def __init__(self):
         self.sensors = [
-            airsensor(),
-            groundsensor()
+            AirSensor(),
+            GroundSensor()
         ]
 
     def measure(self):
@@ -33,8 +32,8 @@ class harvestsensor:
 
 
 if __name__ == "__main__":
-    harvest_sensor = harvestsensor()
+    harvest_sensor = HarvestSensor()
 
-    while true:
+    while True:
         harvest_sensor.measure()
-        time.sleep(interval * 60)
+        time.sleep(INTERVAL * 60)
