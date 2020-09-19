@@ -19,27 +19,36 @@ class GroundSensor:
         time.sleep(0.05)
 
     def cleanup(self):
-        self.sdi.close()
-        self.sdi.setRTS(False)
+        try:
+            self.sdi
+        except AttributeError:
+            return
+        else:
+            self.sdi.close()
+            self.sdi.setRTS(False)
 
     def setup(self):
-        try:
-            self.sdi = serial.Serial(
-                        port = portName,
-                        baudrate = 1200,
-                        bytesize = serial.SEVENBITS,
-                        parity = serial.PARITY_EVEN,
-                        stopbits = serial.STOPBITS_ONE,
-                        timeout = 0,
-                        write_timeout = 0)
-            self.power_on()
-            self.__cleanup()
-            if len(self.address_type_list) == 0:
-                self.__scan_device()
+        try_count = 0
+        while try_count < 10:
+            try:
+                self.sdi = serial.Serial(
+                    port = portName,
+                    baudrate = 1200,
+                    bytesize = serial.SEVENBITS,
+                    parity = serial.PARITY_EVEN,
+                    stopbits = serial.STOPBITS_ONE,
+                    timeout = 0,
+                    write_timeout = 0)
+                break
+            except Exception as e:
+                print(str(e))
+                try_count += 1
+                time.sleep(10)
 
-        except Exception as e:
-            print(str(e))
-            time.sleep(1)
+        self.power_on()
+        self.__cleanup()
+        if len(self.address_type_list) == 0:
+            self.__scan_device()
 
     def measure(self):
         mesured_data = []

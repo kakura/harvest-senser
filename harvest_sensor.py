@@ -19,7 +19,7 @@ class SoracomClient:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((SORACOM_ENDPOINT, SORACOM_PORT))
             s.sendall(self.build_upload_data(data))
-            data = s.recv(1024)
+            s.recv(1024)
 
     def build_upload_data(self, data):
         res_data =  json.dumps(data).encode('utf-8')
@@ -34,9 +34,12 @@ class HarvestSensor:
         ]
 
     def measure(self):
-        self.__setup_sensors()
-        sensor_data = self.__measure()
-        self.__cleanup_sensors()
+        try:
+            # raise Exception('hogeee')
+            self.__setup_sensors()
+            sensor_data = self.__measure()
+        finally:
+            self.__cleanup_sensors()
 
         return sensor_data
     
@@ -63,6 +66,12 @@ if __name__ == "__main__":
     soracom = SoracomClient()
 
     while True:
-        result = harvest_sensor.measure()
-        soracom.upload_data(result)
-        time.sleep(INTERVAL * 60)
+        try:
+            result = harvest_sensor.measure()
+            soracom.upload_data(result)
+            print(result)
+        except Exception as e:
+            print(str(e))
+        finally:
+            time.sleep(INTERVAL * 60)
+ 
