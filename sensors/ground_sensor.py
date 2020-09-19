@@ -66,7 +66,7 @@ class GroundSensor:
                 print("Request failed:Item Count is different.")
                 return
             time.sleep(int(resInterval))
-            dummyRead = self.sdi.readline()
+
             self.__cleanup()
             self.__break_send(0.02)
             request = str(address) + "D0!"
