@@ -6,11 +6,10 @@ GPIO_PIN_NUMBER = 4
 
 class AirSensor:
     def __init__(self):
-        GPIO.setmode(GPIO.BCM)
         self.sensor = dht11.DHT11(pin=GPIO_PIN_NUMBER)
 
     def setup(self):
-        return
+        GPIO.setmode(GPIO.BCM)
 
     def cleanup(self):
         GPIO.cleanup()
