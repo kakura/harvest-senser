@@ -5,7 +5,7 @@ import time
 import socket
 import json
 
-INTERVAL = 0.1 # minutes
+INTERVAL = 10 # minutes
 SORACOM_ENDPOINT = 'funnel.soracom.io'
 SORACOM_PORT     = 23080
 
