@@ -19,7 +19,7 @@ class GrandSensor:
         self.sdi.setRTS(True)
         time.sleep(0.05)
 
-    def power_off(self):
+    def cleanup(self):
         self.sdi.close()
         self.sdi.setRTS(False)
 
