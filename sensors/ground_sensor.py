@@ -9,7 +9,6 @@ waitTime = 0.5
 
 PRODUCT_NUMBER   = 2 # 5WT
 SENSOR_COUNT     = 1
-INTERVAL         = 10 # minutes
 
 class GroundSensor:
     def __init__(self):
