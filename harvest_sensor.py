@@ -1,9 +1,12 @@
 from sensors.air_sensor import AirSensor
 from sensors.ground_sensor import GroundSensor
 
+import os
 import time
 import socket
 import json
+import slackweb
+from dotenv import load_dotenv
 
 INTERVAL = 10 # minutes
 SORACOM_ENDPOINT = 'funnel.soracom.io'
@@ -60,7 +63,7 @@ class HarvestSensor:
             sensor.cleanup()
 
 
-if __name__ == "__main__":
+def main(slack):
     harvest_sensor = HarvestSensor()
     soracom = SoracomClient()
 
@@ -71,6 +74,16 @@ if __name__ == "__main__":
             print(result)
         except Exception as e:
             print(str(e))
+            slack.notify(text=str(e))
         finally:
             time.sleep(INTERVAL * 60)
- 
+    
+
+if __name__ == "__main__":
+    load_dotenv()
+    slack = slackweb.Slack(url=os.environ['SLACK_URL'])
+
+    try:
+        main(slack)
+    except Exception as e:
+        slack.notify(text=str(e))

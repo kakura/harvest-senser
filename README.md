@@ -6,11 +6,15 @@ sudo cp config/rc.local /etc/rc.local
 sudo reboot
 ```
 
-## Installation
+## Setup application
 ```bash
 sudo apt-get update
 sudo apt install python3-pip
 sudo pip3 install -r requirements.txt
+```
+
+```
+cp .env.template .env # and fill values
 ```
 
 ## Run as Service

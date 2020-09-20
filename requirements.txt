@@ -1,3 +1,5 @@
 pyserial ~= 3.4
 RPi.GPIO ~= 0.7.0
 dht11 ~= 0.1.0
+slackweb ~= 1.0.5
+python-dotenv ~= 0.14.0
