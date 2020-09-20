@@ -45,7 +45,7 @@ class HarvestSensor:
     def __init__(self):
         self.sensors = [
             AirSensor(gpio_pin_number=4),
-            GroundSensor(port_name='/div/ttyUSB4')
+            GroundSensor(port_name='/dev/ttyUSB4')
         ]
 
     def measure(self):
