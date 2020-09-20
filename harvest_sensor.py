@@ -44,8 +44,8 @@ class SoracomClient:
 class HarvestSensor:
     def __init__(self):
         self.sensors = [
-            AirSensor(),
-            GroundSensor()
+            AirSensor(gpio_pin_number=4),
+            GroundSensor(port_name='/div/ttyUSB4')
         ]
 
     def measure(self):

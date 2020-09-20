@@ -3,16 +3,14 @@ import time
 import pprint
 import json
 
-# serial settings
-portName = "/dev/ttyUSB4"
-waitTime = 0.5
-
-PRODUCT_NUMBER   = 2 # 5WT
-SENSOR_COUNT     = 1
+PRODUCT_NUMBER = 2 # 5WT
+SENSOR_COUNT   = 1
+WAIT_TIME      = 0.5
 
 class GroundSensor:
-    def __init__(self):
+    def __init__(self, port_name):
         self.address_type_list = []
+        self.port_name = port_name
     
     def power_on(self):
         self.sdi.setRTS(True)
@@ -32,7 +30,7 @@ class GroundSensor:
         while try_count < 10:
             try:
                 self.sdi = serial.Serial(
-                    port = portName,
+                    port = self.port_name,
                     baudrate = 1200,
                     bytesize = serial.SEVENBITS,
                     parity = serial.PARITY_EVEN,
@@ -60,7 +58,7 @@ class GroundSensor:
             self.__break_send(0.02)
             request = str(address) + "M!"
             self.sdi.write( request.encode() )
-            time.sleep(waitTime)
+            time.sleep(WAIT_TIME)
             #Write Check
             response = self.sdi.readline()
             response = response.rstrip()            # 改行文字削除
@@ -80,7 +78,7 @@ class GroundSensor:
             self.__break_send(0.02)
             request = str(address) + "D0!"
             self.sdi.write(request.encode())
-            time.sleep(waitTime)
+            time.sleep(WAIT_TIME)
             measured = self.sdi.readline()
             # <BR>0D0!0
             if measured[1:6].decode('Shift_JIS') == str(address) + "D0!"+ str(address):
@@ -117,7 +115,7 @@ class GroundSensor:
 
             self.sdi.write(request.encode())
 
-            time.sleep(waitTime)
+            time.sleep(WAIT_TIME)
             #Write Check
             response = self.sdi.readline()
             #Parse

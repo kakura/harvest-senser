@@ -2,11 +2,9 @@ import RPi.GPIO as GPIO
 import dht11
 import time
 
-GPIO_PIN_NUMBER = 4
-
 class AirSensor:
-    def __init__(self):
-        self.sensor = dht11.DHT11(pin=GPIO_PIN_NUMBER)
+    def __init__(self, gpio_pin_number):
+        self.sensor = dht11.DHT11(pin=gpio_pin_number)
 
     def setup(self):
         GPIO.setmode(GPIO.BCM)
