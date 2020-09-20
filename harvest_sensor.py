@@ -7,6 +7,7 @@ import socket
 import json
 import slackweb
 from dotenv import load_dotenv
+import sys, traceback
 
 INTERVAL = 10 # minutes
 SORACOM_ENDPOINT = 'funnel.soracom.io'
@@ -83,9 +84,10 @@ def main(slack):
             result = harvest_sensor.measure()
             soracom.upload_data(result)
             print(result)
-        except Exception as e:
-            print(str(e))
-            slack.notify(text=str(e))
+        except:
+            msg = f"```\n{traceback.format_exc()}\n```"
+            print(msg)
+            slack.notify(text=msg)
         finally:
             time.sleep(INTERVAL * 60)
  
@@ -96,6 +98,10 @@ if __name__ == "__main__":
 
     try:
         main(slack)
-    except Exception as e:
-        print(e)
-        slack.notify(text=str(e))
+    except KeyboardInterrupt:
+        print('keyboard interrupted')
+        sys.exit()
+    except:
+        msg = f"```\n{traceback.format_exc()}\n```"
+        print(msg)
+        slack.notify(text=msg)
