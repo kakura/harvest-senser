@@ -1,4 +1,4 @@
-from sensors.air_sensor import AirSensor
+from sensors.thermo_sensor import ThermoSensor
 from sensors.ground_sensor import GroundSensor
 
 import os
@@ -44,7 +44,7 @@ class SoracomClient:
 class HarvestSensor:
     def __init__(self):
         self.sensors = [
-            AirSensor(gpio_pin_number=4),
+            ThermoSensor(gpio_pin_number=4),
             GroundSensor(port_name='/dev/ttyUSB4')
         ]
 

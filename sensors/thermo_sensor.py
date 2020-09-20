@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import dht11
 import time
 
-class AirSensor:
+class ThermoSensor:
     def __init__(self, gpio_pin_number):
         self.sensor = dht11.DHT11(pin=gpio_pin_number)
 
