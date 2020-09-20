@@ -85,7 +85,7 @@ def main(slack):
             soracom.upload_data(result)
             print(result)
         except:
-            msg = f"```\n{traceback.format_exc()}\n```"
+            msg = f"```\n{traceback.format_exc()}```"
             print(msg)
             slack.notify(text=msg)
         finally:
@@ -102,6 +102,6 @@ if __name__ == "__main__":
         print('keyboard interrupted')
         sys.exit()
     except:
-        msg = f"```\n{traceback.format_exc()}\n```"
+        msg = f"```\n{traceback.format_exc()}```"
         print(msg)
         slack.notify(text=msg)
