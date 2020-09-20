@@ -101,8 +101,8 @@ class GroundSensor:
 
     def __build_response_data(self, data):
         return { 
-            "waterContent": data[1],
-            "temperature": data[2]
+            "waterContent": float(data[1]),
+            "temperature": float(data[2])
         }
 
     def __scan_device(self):
