@@ -19,10 +19,21 @@ def camelize(str):
 
 class SoracomClient:
     def upload_data(self, data):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((SORACOM_ENDPOINT, SORACOM_PORT))
-            s.sendall(self.build_upload_data(data))
-            s.recv(1024)
+        max_try_count = 10
+        try_count = 0
+        while try_count < max_try_count:
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    s.connect((SORACOM_ENDPOINT, SORACOM_PORT))
+                    s.sendall(self.build_upload_data(data))
+                    s.recv(1024)
+                break
+            except Exception as e:
+                print(e)
+                if try_count >= max_try_count:
+                    raise Exception(e)
+                time.sleep(10)
+                try_count += 1
 
     def build_upload_data(self, data):
         res_data =  json.dumps(data).encode('utf-8')
@@ -77,7 +88,7 @@ def main(slack):
             slack.notify(text=str(e))
         finally:
             time.sleep(INTERVAL * 60)
-    
+ 
 
 if __name__ == "__main__":
     load_dotenv()
@@ -86,4 +97,5 @@ if __name__ == "__main__":
     try:
         main(slack)
     except Exception as e:
+        print(e)
         slack.notify(text=str(e))
