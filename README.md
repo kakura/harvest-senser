@@ -17,7 +17,28 @@ sudo pip3 install -r requirements.txt
 cp .env.template .env # and fill values
 ```
 
-## Run as Service
+## Start monitoring
+```
+python3 harvest_sensor.py
+```
+
+and you can get values like below
+```json
+{
+    "thermoSensor": {
+        "temperature": 28.1,
+        "humidity": 59.0
+    }, 
+    "groundSensor": [
+        {
+            "waterContent": 21.6,
+            "temperature": 26.0
+        }
+    ]
+}
+```
+
+## Run as a service
 ```bash
 sudo cp config/upload_sensor_data.service /etc/systemd/system/upload_sensor_data.service
 sudo systemctl enable upload_sensor_data.service
