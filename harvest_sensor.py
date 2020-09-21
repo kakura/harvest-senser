@@ -3,13 +3,13 @@ from sensors.ground_sensor import GroundSensor
 
 import os
 import time
+import datetime
 import socket
 import json
 import slackweb
 from dotenv import load_dotenv
 import sys, traceback
 
-INTERVAL = 10 # minutes
 SORACOM_ENDPOINT = 'funnel.soracom.io'
 SORACOM_PORT     = 23080
 
@@ -75,33 +75,22 @@ class HarvestSensor:
             sensor.cleanup()
 
 
-def main(slack):
-    harvest_sensor = HarvestSensor()
-    soracom = SoracomClient()
-
-    while True:
-        try:
-            result = harvest_sensor.measure()
-            soracom.upload_data(result)
-            print(result)
-        except:
-            msg = f"```\n{traceback.format_exc()}```"
-            print(msg)
-            slack.notify(text=msg)
-        finally:
-            time.sleep(INTERVAL * 60)
- 
-
 if __name__ == "__main__":
-    load_dotenv()
-    slack = slackweb.Slack(url=os.environ['SLACK_URL'])
-
     try:
-        main(slack)
+        load_dotenv()
+        slack = slackweb.Slack(url=os.environ['SLACK_URL'])
+
+        harvest_sensor = HarvestSensor()
+        soracom = SoracomClient()
+
+        result = harvest_sensor.measure()
+        soracom.upload_data(result)
+
+        print(result)
     except KeyboardInterrupt:
         print('keyboard interrupted')
         sys.exit()
     except:
         msg = f"```\n{traceback.format_exc()}```"
-        print(msg)
+        print(datetime.datetime.now(), msg, file=sys.stderr)
         slack.notify(text=msg)
