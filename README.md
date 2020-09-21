@@ -38,12 +38,8 @@ and you can get values like below
 }
 ```
 
-## Run as a service
-```bash
-sudo cp config/upload_sensor_data.service /etc/systemd/system/upload_sensor_data.service
-sudo systemctl enable upload_sensor_data.service
-sudo systemctl start upload_sensor_data.service
-sudo reboot
-
-sudo systemctl status upload_sensor_data.service
+## Run as a cron job
+```
+# crontab -e
+*/10 * * * * /usr/bin/python3 -u /home/pi/harvest-sensor/harvest_sensor.py 2>> /home/pi/logs/harvest_sensor/error.log
 ```
