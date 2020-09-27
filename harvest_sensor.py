@@ -1,5 +1,6 @@
 from sensors.thermo_sensor import ThermoSensor
 from sensors.ground_sensor import GroundSensor
+from sensors.air_sensor import AirSensor
 
 import os
 import time
@@ -45,7 +46,8 @@ class HarvestSensor:
     def __init__(self):
         self.sensors = [
             ThermoSensor(gpio_pin_number=4),
-            GroundSensor(port_name='/dev/ttyUSB4')
+            GroundSensor(port_name='/dev/ttyUSB4'),
+            AirSensor()
         ]
 
     def measure(self):
