@@ -68,6 +68,12 @@ class HarvestSensor:
 
         for sensor in self.sensors:
             result = sensor.measure()
+
+            # 土壌センサーは複数接続されることが想定されているため、配列で値が返ってくるようになっていますが、
+            # 当分はひとつしか使わない想定なのでひとつ目を取り出して使います
+            if sensor.__class__.__name__ == 'GroundSensor':
+              result = result[0]
+
             sensor_data[camelize(sensor.__class__.__name__)] = result
         
         return sensor_data
